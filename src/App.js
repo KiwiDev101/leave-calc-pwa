@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { format, addDays, subDays, isSaturday, isSunday } from "date-fns";
 import Footer from "./Components/Footer";
 import Header from "./Components/Header";
@@ -16,8 +16,26 @@ function App() {
   const [exp, setExp] = useState(
     format(subDays(date, 1), "do EEE, MMMM, yyyy").toString()
   );
-  //////////////////////////////////////////////////////////////
+
+  //============================================================
+  // dealing with weekend
+  //============================================================
+  useEffect(() => {
+    // is Saturday
+    if (isSaturday(date)) {
+      setDay(format(addDays(date, 2), "do EEEE").toString());
+    }
+
+    // is Sunday
+    if (isSunday(date)) {
+      setDay(format(addDays(date, 1), "do EEEE").toString());
+    }
+  }, [date]);
+
+  //============================================================
   // HANDLE LEAVE TYPE EVENT
+  //============================================================
+
   const handleLeaveType = () => {
     // let startDate = document.querySelector(".date-input");
     let numOfLeave = document.querySelector(".numOfDays");
@@ -45,8 +63,9 @@ function App() {
     }
   };
 
-  //////////////////////////////////////////////////////////////
+  //============================================================
   // ADD DAYS EVENT
+  //============================================================
 
   const handleSum = () => {
     let startDate = document.querySelector(".date-input").value;
