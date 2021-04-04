@@ -23,14 +23,14 @@ function App() {
   useEffect(() => {
     // is Saturday
     if (isSaturday(date)) {
-      setDay(format(addDays(date, 2), "do EEEE").toString());
+      setDay(format(addDays(date, 2), "do EEEE,").toString());
     }
 
     // is Sunday
     if (isSunday(date)) {
-      setDay(format(addDays(date, 1), "do EEEE").toString());
+      setDay(format(addDays(date, 1), "do EEEE,").toString());
     }
-  }, [date]);
+  }, []);
 
   //============================================================
   // HANDLE LEAVE TYPE EVENT
@@ -79,13 +79,21 @@ function App() {
     setYear(format(date, "yyyy").toString());
     setExp(format(subDays(date, 1), "do EEE, MMMM, yyyy").toString());
 
+    //=====================================================
+    // HANDLING WEEKENDS
+    //=====================================================
+
     // if date ends on a saturday
     if (isSaturday(date)) {
       setDay(format(addDays(date, 2), "do EEEE,").toString());
+      setMonth(format(addDays(date, 2), "MMMM,").toString());
+      setYear(format(addDays(date, 2), "yyyy").toString());
     }
     // if date ends on a sunday
-    if (isSunday(date)) {
+    else if (isSunday(date)) {
       setDay(format(addDays(date, 1), "do EEEE,").toString());
+      setMonth(format(addDays(date, 1), "MMMM,").toString());
+      setYear(format(addDays(date, 1), "yyyy").toString());
     }
   };
 
